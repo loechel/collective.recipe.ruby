@@ -27,8 +27,6 @@ setup(
         'setuptools',
         # -*- Extra requirements: -*-
         'collective.recipe.cmmi',
-        'ipython',
-        'ipdb',
     ],
     zip_safe=False,
     classifiers=[
