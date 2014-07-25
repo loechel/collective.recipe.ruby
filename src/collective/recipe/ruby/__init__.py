@@ -24,4 +24,12 @@ class Recipe(Base):
             bin_dir = os.path.join(self.options['location'], 'bin')
 
             logger.info('Install Ruby Gems: {gems}'.format(gems=' '.join(gems)))
-            system('{path}/gem install {gems}'.format(path=bin_dir,gems=' '.join(gems)))
+            if os.environ['https_proxy']:
+                system('{path}/gem install --http-proxy={proxy} --source={source} {gems} '.format(path=bin_dir,gems=' '.join(gems),proxy=os.environ['https_proxy'],source='https://rubygems.org/'))
+            #' --http-proxy=https://webscan-lb.verwaltung.uni-muenchen.de:8443 --source=https://rubygems.org/'
+            elif os.environ['http_proxy']:
+                system('{path}/gem install --http-proxy={proxy} --source={source} {gems} '.format(path=bin_dir,gems=' '.join(gems),proxy=os.environ['http_proxy'],source='http://rubygems.org/'))
+            #' --http-proxy=https://webscan-lb.verwaltung.uni-muenchen.de:8443 --source=https://rubygems.org/'
+            else:
+                system('{path}/gem install {gems}'.format(path=bin_dir,gems=' '.join(gems)))
+            #' --http-proxy=https://webscan-lb.verwaltung.uni-muenchen.de:8443 --source=https://rubygems.org/'
